@@ -1,24 +1,21 @@
 """ initialise the web server and present routes """
 
-from flask_api import FlaskAPI
+from flask import Flask
 from instance.config import app_config
-
-devices = [
-    {
-        'id': 1,
-        'hostname': 'TestMachine',
-        'notes': 'Owned by Mary'
-    },
-    {
-        'id': 2,
-        'hostname': 'TestMachine2',
-        'notes': 'Owned by Joe'
-    }
-]
+from models import Devices
 
 def create_app(config_name):
-    app = FlaskAPI(__name__, instance_relative_config=True)
+    app = Flask(__name__)
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
 
+    @app.route('/v1.0/devices', methods=['POST', 'GET'])
+    def devices():
+        device = Devices()
+        if request.method == 'POST':
+            # POST
+            device.post(str(request.data.get('name'))
+        else:
+            # GET
+            device.get(str)
     return app
