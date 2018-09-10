@@ -1,3 +1,5 @@
+""" Define configuration classes """
+
 import os
 
 class Config(object):

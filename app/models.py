@@ -1,20 +1,28 @@
-class Devices(cn):
-    """ Devices class, post and get devices using name """
-    def __init__(self, cn):
-        self = cn
+import subprocess
 
-    def post(self):
+class Devices():
+    """ Devices class, post and get devices using name """
+    def post(self, cn, mac):
         """ Post a device to the configmgr DB """
-        p = subprocess.Popen(['powershell.exe', '-ExecutionPolicy',
-                            'bypass', 'scripts\\post-device.ps1', cn], 
+        p = subprocess.Popen(['pwsh-preview', '-ExecutionPolicy',
+                            'bypass', 'scripts\\post-device.ps1', cn, mac], 
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = p.communicate()
 
         return output
 
-    def get(self):
+    def getall(self):
+        """ Get all device from configmgr and return """
+        p = subprocess.Popen(['pwsh-preview', '-ExecutionPolicy',
+                            'bypass', 'scripts\\get-device.ps1'], 
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        output = p.communicate()
+
+        return output
+
+    def get(self, cn):
         """ Get device from configmgr and return whether it exists or not """
-        p = subprocess.Popen(['powershell.exe', '-ExecutionPolicy',
+        p = subprocess.Popen(['pwsh-preview', '-ExecutionPolicy',
                             'bypass', 'scripts\\get-device.ps1', cn], 
                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         output = p.communicate()
