@@ -11,6 +11,10 @@ def create_app(config_name):
     # load the configuration
     app.config.from_object(app_config[config_name])
 
+    @app.route('/test')
+    def test_routing():
+        return 'Hello world'
+
     @app.errorhandler(404)
     def handle_notfound(e):
         return render_template('404.html')
