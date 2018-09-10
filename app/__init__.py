@@ -2,7 +2,7 @@
 
 from flask import Flask, request
 from instance.config import app_config
-from models import Devices
+from .models import Devices
 
 def create_app(config_name):
     """ function creates the flask app using the config file """
@@ -29,7 +29,7 @@ def create_app(config_name):
     def add_device():
         """ function runs when URI is accessed """
         device = Devices()
-        device.post(str(request.data.get('name')),)
-        return '', 204
+        device.post(str(request.data.get('name')),str(request.data.get('mac')))
+        return '',204
 
     return app
