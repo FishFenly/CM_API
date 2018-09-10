@@ -1,6 +1,6 @@
 """ initialise the web server and present routes """
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from instance.config import app_config
 from .models import Devices
 
@@ -10,6 +10,10 @@ def create_app(config_name):
     app = Flask(__name__)
     # load the configuration
     app.config.from_object(app_config[config_name])
+
+    @app.errorhandler(404)
+    def handle_notfound(e):
+        return render_template('404.html')
 
     # route for getting devices
     @app.route('/v1.0/devices')
