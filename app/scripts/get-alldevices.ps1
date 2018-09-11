@@ -8,7 +8,7 @@ Invoke-Command -Session $sess -ScriptBlock {
     Import-module "$($ENV:SMS_ADMIN_UI_PATH)\..\ConfigurationManager.psd1"
     cd "$($sitecode):\"
     # get all devices of workstation type
-    $out = Get-CMDevice | ? DeviceOS -like "Microsoft Windows NT Workstation*"
+    $out = Get-CMDevice | select -First 20 | ? DeviceOS -like "Microsoft Windows NT Workstation*"
     # initalise the hash table
     $x = @{}
     # if getting the devices doesnt fail, loop through each device, get the mac and
