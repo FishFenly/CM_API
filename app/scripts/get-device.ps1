@@ -1,8 +1,13 @@
 # session details
 $cn = $args[0]
 $server = "ngsccm-mp-01.northgatevehiclehire.net"
+
+$pw = cat .\securestring.txt | ConvertTo-SecureString
+$cred = New-Object System.Management.Automation.PSCredential(
+    "", $pw)
+
 $sesh = New-PSSession -ComputerName $server -ConfigurationName Microsoft.PowerShell32 `
-    -credential (Get-Credential)
+    -credential ($cred)
 
 Invoke-Command -Session $sesh -ScriptBlock {
     # Import the Cm module and cd into the psdrive

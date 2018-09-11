@@ -11,30 +11,27 @@ def create_app(config_name):
     # load the configuration
     app.config.from_object(app_config[config_name])
 
-    @app.route('/test')
-    def test_routing():
-        return 'Hello world'
-
+    # handle 404 errors using custom html
     @app.errorhandler(404)
     def handle_notfound(e):
-        return render_template('404.html')
+        return render_template('404.html'), 404
 
     # route for getting devices
     @app.route('/v1.0/devices')
     def get_alldevices():
         devices = models.getall()
-        return devices
+        return devices, 200
     
     @app.route('/v1.0/devices/test')
     def get_device():
         device = models.get('NG0392')
-        return device
+        return device, 200
 
     # route for posting devices
     @app.route('/v1.0/devices', methods=['POST'])
     def add_device():
         """ function runs when URI is accessed """
         models.post(str(request.data.get('name')),str(request.data.get('mac')))
-        return '',204
+        return '', 201
 
     return app
