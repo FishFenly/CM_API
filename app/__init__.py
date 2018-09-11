@@ -2,7 +2,7 @@
 
 from flask import Flask, request, render_template
 from instance.config import app_config
-import models
+from .models import get, getall, post
 
 def create_app(config_name):
     """ function creates the flask app using the config file """
@@ -19,19 +19,19 @@ def create_app(config_name):
     # route for getting devices
     @app.route('/v1.0/devices')
     def get_alldevices():
-        devices = models.getall()
+        devices = getall()
         return devices, 200
     
     @app.route('/v1.0/devices/test')
     def get_device():
-        device = models.get('NG0392')
+        device = get('NG0392')
         return device, 200
 
     # route for posting devices
     @app.route('/v1.0/devices', methods=['POST'])
     def add_device():
         """ function runs when URI is accessed """
-        models.post(str(request.data.get('name')),str(request.data.get('mac')))
+        post(str(request.data.get('name')),str(request.data.get('mac')))
         return '', 201
 
     return app
