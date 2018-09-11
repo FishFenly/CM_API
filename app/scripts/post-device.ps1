@@ -3,7 +3,7 @@ $cn = $args[0]
 $mac = $args[1]
 $server = "ngsccm-mp-01.northgatevehiclehire.net"
 
-$pw = cat .\securestring.txt | ConvertTo-SecureString
+$pw = cat .\scripts\securestring.txt | ConvertTo-SecureString
 $cred = New-Object System.Management.Automation.PSCredential(
     "", $pw)
 

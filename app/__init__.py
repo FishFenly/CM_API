@@ -1,6 +1,6 @@
 """ initialise the web server and define routes """
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from instance.config import app_config
 from .models import get, getall, post
 
@@ -22,10 +22,11 @@ def create_app(config_name):
         devices = getall()
         return devices, 200
     
+    # route for getting a single device
     @app.route('/v1.0/devices/test')
     def get_device():
         device = get('NG0392')
-        return device, 200
+        return jsonify(device), 200
 
     # route for posting devices
     @app.route('/v1.0/devices', methods=['POST'])

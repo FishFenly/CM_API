@@ -1,7 +1,7 @@
 # session details
 $server = "ngsccm-mp-01.northgatevehiclehire.net"
 
-$pw = cat .\securestring.txt | ConvertTo-SecureString
+$pw = cat .\scripts\securestring.txt | ConvertTo-SecureString
 $cred = New-Object System.Management.Automation.PSCredential(
     "", $pw)
 
@@ -26,6 +26,6 @@ Invoke-Command -Session $sesh -ScriptBlock {
                         ? Name -like $($obj).Name | select -expand MacAddresses
             $x.add($obj.Name, $mac)
         }
-    	return ($x | convertto-json)
+    	return ($x | convertto-json | % { [System.Text.RegularExpressions.Regex]::Unescape($_) })
     } else { return 'fail' }
 }
