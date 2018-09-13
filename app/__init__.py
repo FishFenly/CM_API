@@ -15,24 +15,19 @@ def create_app(config_name):
     @app.errorhandler(404)
     def handle_notfound(e):
         return render_template('404.html'), 404
-
-    # route for getting devices
-    @app.route('/v1.0/devices')
-    def get_alldevices():
-        devices = getall()
-        return devices, 200
     
     # route for getting a single device
-    @app.route('/v1.0/devices/test')
+    @app.route('/v1.0/devices', methods=['POST'])
     def get_device():
-        device = get('NG0392')
+        cn = request.args['name']
+        device = str(get(cn))
         return jsonify(device), 200
 
     # route for posting devices
     @app.route('/v1.0/devices', methods=['POST'])
     def add_device():
         """ function runs when URI is accessed """
-        post(str(request.data.get('name')),str(request.data.get('mac')))
+        post(request.args['name'],request.args['mac'])
         return '', 201
 
     return app
